@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#203124">
+    <meta name="description" content="Monster-Angebote aus deiner Region wöchentlich vergleichen.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Monster Radar">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="icon" href="./icons/icon-192.png" sizes="192x192" type="image/png">
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+    <title>Monster Radar — Angebote im Blick</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="latest-offers.js" defer></script>
+    <script src="app.js" defer></script>
+    <script src="pwa.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#start" aria-label="Monster Radar Startseite">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none"><path d="M17.5 2 6 17h8l-1.5 13L26 13h-8.2L17.5 2Z" fill="currentColor"/></svg>
+        </span>
+        <span>MONSTER<span class="brand-light">RADAR</span></span>
+      </a>
+      <div class="topbar-right">
+        <button class="install-button" id="installButton" type="button" hidden>App installieren</button>
+        <span class="week-label" id="weekLabel">Diese Woche</span>
+        <span class="status-pill"><span class="status-dot"></span> <span id="scheduleStatus">Montagsscan wird eingerichtet</span></span>
+      </div>
+    </header>
+
+    <main id="start">
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-line"></span> Dein Wochenvergleich</p>
+          <h1 id="heroTitle">Monster-Angebote.<br><em>Einfach vergleichen.</em></h1>
+          <p class="hero-subtitle">Finde den besten Preis für deine Lieblingssorte. Klar sortiert nach Preis pro Liter.</p>
+          <a class="hero-link" href="#angebote">Angebote ansehen <span aria-hidden="true">↓</span></a>
+        </div>
+        <aside class="hero-deal" aria-label="Günstigstes Angebot dieser Woche">
+          <div class="hero-deal-label"><span class="hero-deal-icon" aria-hidden="true">↘</span> Günstigster Deal</div>
+          <strong id="heroPrice">—</strong>
+          <div class="hero-deal-meta"><span>pro Dose bei</span><b id="heroStore">Wird geladen</b></div>
+        </aside>
+      </section>
+
+      <section class="nearby-search" aria-labelledby="nearbyTitle">
+        <div class="nearby-search-copy">
+          <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> In deiner Nähe</p>
+          <h2 id="nearbyTitle">Monster-Prospekte nach PLZ</h2>
+          <p class="section-subtitle">Finde nahe Filialen mit einem erfassten Monster-Angebot – sortiert nach Preis pro Liter.</p>
+        </div>
+        <form class="postal-form" id="postalForm">
+          <label class="sr-only" for="postalCode">Deine Postleitzahl</label>
+          <input id="postalCode" name="postalCode" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="z. B. 10115" aria-describedby="postalHelp" required>
+          <button class="button button-primary" id="nearbySearchButton" type="submit">Filialen finden <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="nearby-disclaimer" id="postalHelp">Die PLZ wird zur Umkreissuche an OpenStreetMap gesendet. Filialdaten: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap-Mitwirkende</a>. Prospektpreise stammen aus bundesweiten Quellen und bestätigen nicht den Preis oder das Sortiment einer einzelnen Filiale.</p>
+        <div class="nearby-results" id="nearbyResults" aria-live="polite" hidden>
+          <p class="nearby-status" id="nearbyStatus" role="status"></p>
+          <ol class="nearby-list" id="nearbyList"></ol>
+        </div>
+      </section>
+
+      <section class="notice" aria-label="Hinweis zum Datenstand">
+        <span class="notice-icon" aria-hidden="true">i</span>
+        <p id="scanNotice"><strong>Noch kein Live-Scan:</strong> Die Beispielpreise sind fiktiv. Der Montagsscan prüft Händlerprospekte deiner Region. Eigene Einträge bleiben in diesem Browser.</p>
+        <button class="notice-close" id="dismissNotice" type="button" aria-label="Hinweis schließen">×</button>
+      </section>
+
+      <section class="summary-grid" aria-label="Wochenübersicht">
+        <article class="stat-card stat-card-featured">
+          <span class="stat-label">Preis pro Dose beim Top-Deal</span>
+          <strong class="stat-value" id="bestCanPrice">—</strong>
+          <span class="stat-note" id="bestCanDetail">Noch keine Angebote</span>
+          <span class="stat-icon" aria-hidden="true">↘</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Niedrigster Literpreis</span>
+          <strong class="stat-value" id="bestLiterPrice">—</strong>
+          <span class="stat-note">Einheitlich nach Packungsgröße</span>
+          <span class="stat-icon stat-icon-light" aria-hidden="true">◎</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Märkte mit Angeboten</span>
+          <strong class="stat-value"><span id="marketCount">0</span><small> / 7+</small></strong>
+          <span class="stat-note">In dieser Auswertung</span>
+          <span class="stat-icon stat-icon-light" aria-hidden="true">⌖</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Angebote verglichen</span>
+          <strong class="stat-value" id="offerCount">0</strong>
+          <span class="stat-note" id="dataNote">Beispieldaten sichtbar</span>
+          <span class="stat-icon stat-icon-light" aria-hidden="true">≋</span>
+        </article>
+      </section>
+
+      <section class="comparison" id="angebote" aria-labelledby="comparisonTitle">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> Preisradar</p>
+            <h2 id="comparisonTitle">Angebote der Woche</h2>
+            <p class="section-subtitle">Gleiche Menge? Hier zählt der Preis pro Liter.</p>
+          </div>
+          <div class="section-actions">
+            <label class="filter-label" for="flavorFilter">Sorte</label>
+            <select id="flavorFilter" class="select-control">
+              <option value="all">Alle Sorten</option>
+              <option>Original</option>
+              <option>Zero Sugar</option>
+              <option>Ultra White</option>
+              <option>Mango Loco</option>
+              <option>Andere</option>
+            </select>
+            <button class="button button-primary" id="addOfferButton" type="button"><span aria-hidden="true">＋</span> Angebot eintragen</button>
+          </div>
+        </div>
+
+        <div class="comparison-layout">
+          <div class="table-card">
+            <div class="table-topline">
+              <div><span class="live-indicator"></span><span id="resultLabel">Alle Angebote</span></div>
+              <div class="table-tools">
+                <label class="checkbox-label"><input type="checkbox" id="hideDemo"> Beispieldaten ausblenden</label>
+                <button class="text-button" id="exportButton" type="button">CSV exportieren <span aria-hidden="true">↗</span></button>
+              </div>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th scope="col">#</th><th scope="col">Markt &amp; Angebot</th><th scope="col">Gültig bis</th><th scope="col">Preis / Dose</th><th scope="col">Preis / Liter</th><th scope="col"><span class="sr-only">Aktion</span></th></tr></thead>
+                <tbody id="offerRows"></tbody>
+              </table>
+              <div class="empty-state" id="emptyState" hidden>
+                <span class="empty-icon" aria-hidden="true">⌕</span>
+                <strong>Keine Angebote gefunden</strong>
+                <span>Ändere den Filter oder trage ein Angebot ein.</span>
+                <button class="button button-secondary" id="emptyAddButton" type="button">Erstes Angebot eintragen</button>
+              </div>
+            </div>
+            <div class="table-footer"><span>ℹ Preise sind ohne Pfand angegeben.</span><span id="updatedAt">Zuletzt geändert: —</span></div>
+          </div>
+
+          <aside class="side-column">
+            <article class="best-card">
+              <div class="best-card-head"><span class="best-badge"><span aria-hidden="true">✦</span> TOP DEAL</span><span class="best-week" id="bestWeek">DIESE WOCHE</span></div>
+              <div class="best-card-body">
+                <p class="best-kicker">Bester Preis in deiner Liste</p>
+                <strong class="best-price" id="sideBestPrice">—</strong>
+                <span class="best-unit" id="sideBestUnit">pro Dose</span>
+                <div class="best-divider"></div>
+                <div class="best-store-row"><span class="store-avatar" id="bestStoreAvatar">—</span><span><strong id="sideBestStore">Noch kein Markt</strong><small id="sideBestOffer">Angebot eintragen</small></span><span class="store-arrow">↗</span></div>
+              </div>
+              <div class="best-card-foot">Preis ohne Pfand · nach Menge normalisiert</div>
+            </article>
+
+            <article class="how-card">
+              <div class="how-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5.5h16M4 10.5h16M4 15.5h10M4 20.5h7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="18" cy="18" r="3.2" stroke="currentColor" stroke-width="1.7"/><path d="m20.4 20.4 2 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+              <h3>So funktioniert's</h3>
+              <ol><li><span>1</span>Prospektpreis eintragen</li><li><span>2</span>Sorte und Packung wählen</li><li><span>3</span>Preis pro Liter vergleichen</li></ol>
+              <p>Der günstigste Eintrag steht automatisch oben.</p>
+            </article>
+          </aside>
+        </div>
+      </section>
+
+      <section class="bottom-bar" aria-label="Verwaltung">
+        <div><span class="bottom-icon" aria-hidden="true">◷</span><span><strong>Dein Browser, deine Daten</strong><small>Eigene Angebote werden lokal gespeichert.</small></span></div>
+        <button class="text-button" id="resetButton" type="button">Beispiele ergänzen</button>
+      </section>
+    </main>
+
+    <footer class="footer"><a class="brand brand-footer" href="#start"><span class="brand-mark" aria-hidden="true">M</span><span>MONSTER<span class="brand-light">RADAR</span></span></a><span>Ein privater Wochenvergleich · keine Verbindung zu Händlern</span><a href="#start">Nach oben ↑</a></footer>
+
+    <dialog class="offer-dialog install-dialog" id="installDialog" aria-labelledby="installTitle">
+      <div class="install-content">
+        <div class="dialog-heading"><div><p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> Monster Radar</p><h2 id="installTitle">Auf dem Home-Bildschirm</h2></div><button class="dialog-close" id="closeInstallDialog" type="button" aria-label="Hinweis schließen">×</button></div>
+        <p class="dialog-intro">So installierst du die App auf deinem iPhone oder iPad:</p>
+        <ol class="install-steps"><li><span>1</span>Tippe in Safari auf <strong>Teilen</strong>.</li><li><span>2</span>Wähle <strong>„Zum Home-Bildschirm“</strong>.</li><li><span>3</span>Tippe auf <strong>„Hinzufügen“</strong>.</li></ol>
+        <p class="install-note">Danach startet Monster Radar wie eine App direkt vom Home-Bildschirm.</p>
+        <div class="dialog-actions"><button class="button button-primary" id="understoodInstall" type="button">Verstanden</button></div>
+      </div>
+    </dialog>
+    <dialog class="offer-dialog" id="offerDialog" aria-labelledby="dialogTitle">
+      <form id="offerForm" novalidate>
+        <div class="dialog-heading"><div><p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> Dein Preisfund</p><h2 id="dialogTitle">Angebot eintragen</h2></div><button class="dialog-close" id="closeDialog" type="button" aria-label="Dialog schließen">×</button></div>
+        <p class="dialog-intro">Die Daten werden nur in diesem Browser gespeichert. Preise bitte ohne Pfand eintragen.</p>
+        <div class="form-grid">
+          <label class="field field-wide">Supermarkt<input name="store" list="stores" maxlength="48" placeholder="z. B. Kaufland" required autocomplete="organization"><datalist id="stores"><option value="REWE"><option value="EDEKA"><option value="Kaufland"><option value="Lidl"><option value="Aldi Nord"><option value="Aldi Süd"><option value="Penny"><option value="Netto"><option value="Norma"></datalist></label>
+          <label class="field">Sorte<select name="flavor" required><option>Original</option><option>Zero Sugar</option><option>Ultra White</option><option>Mango Loco</option><option>Andere</option></select></label>
+          <label class="field">Dosen pro Packung<input name="pack" type="number" inputmode="numeric" min="1" max="48" step="1" value="1" required></label>
+          <label class="field">Milliliter pro Dose<input name="ml" type="number" inputmode="numeric" min="100" max="2000" step="50" value="500" required></label>
+          <label class="field">Gesamtpreis der Packung<input name="price" type="number" inputmode="decimal" min="0.01" max="999" step="0.01" placeholder="0,89" required></label>
+          <label class="field">Gültig bis<input name="validUntil" type="date" required></label>
+          <label class="field field-wide">Filiale oder Ort <span class="optional">optional</span><input name="branch" maxlength="64" placeholder="z. B. Berlin Mitte"></label>
+        </div>
+        <p class="form-error" id="formError" role="alert" hidden></p>
+        <div class="calculation-preview" id="calculationPreview">Pro Dose <strong>—</strong><span>·</span> pro Liter <strong>—</strong></div>
+        <div class="dialog-actions"><button class="button button-secondary" id="cancelDialog" type="button">Abbrechen</button><button class="button button-primary" type="submit">Angebot speichern <span aria-hidden="true">→</span></button></div>
+      </form>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
