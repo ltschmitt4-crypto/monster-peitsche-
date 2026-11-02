@@ -1,7 +1,7 @@
 window.MONSTER_RADAR_LIVE_OFFERS = {
   "scheduleEnabled": true,
   "regionScope": "national",
-  "checkedAt": "2026-11-02T21:31:08.599Z",
+  "checkedAt": "2026-11-02T21:49:14.511Z",
   "sourcesChecked": [
     "MeinProspekt",
     "Aktionspreis.de"
