@@ -1,22 +1,22 @@
 window.MONSTER_RADAR_LIVE_OFFERS = {
   "scheduleEnabled": true,
   "regionScope": "national",
-  "checkedAt": "2026-11-02T21:49:14.511Z",
+  "checkedAt": "2026-11-09T13:27:23.032Z",
   "sourcesChecked": [
     "MeinProspekt",
     "Aktionspreis.de"
   ],
   "offers": [
     {
-      "id": "meinprospekt-edeka-2026-11-07",
-      "store": "EDEKA",
+      "id": "meinprospekt-kaufland-2026-11-14",
+      "store": "Kaufland",
       "branch": "",
       "flavor": "Andere",
       "pack": 1,
       "ml": 500,
       "price": 0.79,
       "validFrom": "",
-      "validUntil": "2026-11-07",
+      "validUntil": "2026-11-14",
       "demo": false,
       "live": true,
       "sourceName": "MeinProspekt",
@@ -24,15 +24,31 @@ window.MONSTER_RADAR_LIVE_OFFERS = {
       "conditions": "Monster Energy 0,5 l; Prospektangebot, lokale Filialverfügbarkeit bitte prüfen"
     },
     {
-      "id": "meinprospekt-v-markt-2026-11-04",
-      "store": "V-Markt",
+      "id": "meinprospekt-lidl-2026-11-21",
+      "store": "Lidl",
       "branch": "",
       "flavor": "Andere",
       "pack": 1,
       "ml": 500,
-      "price": 0.88,
+      "price": 8.88,
       "validFrom": "",
-      "validUntil": "2026-11-04",
+      "validUntil": "2026-11-21",
+      "demo": false,
+      "live": true,
+      "sourceName": "MeinProspekt",
+      "sourceUrl": "https://www.meinprospekt.de/angebote/monster-energy",
+      "conditions": "Monster Energy 0,5 l; Prospektangebot, lokale Filialverfügbarkeit bitte prüfen"
+    },
+    {
+      "id": "meinprospekt-action-2026-11-10",
+      "store": "Action",
+      "branch": "",
+      "flavor": "Andere",
+      "pack": 1,
+      "ml": 500,
+      "price": 1.19,
+      "validFrom": "",
+      "validUntil": "2026-11-10",
       "demo": false,
       "live": true,
       "sourceName": "MeinProspekt",
@@ -69,7 +85,7 @@ window.MONSTER_RADAR_LIVE_OFFERS = {
       "live": true,
       "sourceName": "Aktionspreis.de",
       "sourceUrl": "https://www.aktionspreis.de/angebote/monster-energy-0-5l",
-      "conditions": "Monster Energy 0,5 l; beim Kauf eines 10er Packs; lokale Verfügbarkeit bitte prüfen"
+      "conditions": "Monster Energy 0,5 l; lokale Verfügbarkeit bitte prüfen"
     }
   ]
 };
