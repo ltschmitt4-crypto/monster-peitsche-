@@ -1,22 +1,37 @@
 window.MONSTER_RADAR_LIVE_OFFERS = {
   "scheduleEnabled": true,
   "regionScope": "national",
-  "checkedAt": "2026-11-09T13:27:23.032Z",
+  "checkedAt": "2026-11-16T13:12:58.851Z",
   "sourcesChecked": [
-    "MeinProspekt",
-    "Aktionspreis.de"
+    "MeinProspekt"
   ],
   "offers": [
     {
-      "id": "meinprospekt-kaufland-2026-11-14",
-      "store": "Kaufland",
+      "id": "meinprospekt-netto-marken-discount-2026-11-21",
+      "store": "Netto Marken-Discount",
       "branch": "",
       "flavor": "Andere",
       "pack": 1,
       "ml": 500,
-      "price": 0.79,
+      "price": 0.88,
       "validFrom": "",
-      "validUntil": "2026-11-14",
+      "validUntil": "2026-11-21",
+      "demo": false,
+      "live": true,
+      "sourceName": "MeinProspekt",
+      "sourceUrl": "https://www.meinprospekt.de/angebote/monster-energy",
+      "conditions": "Monster Energy 0,5 l; Prospektangebot, lokale Filialverfügbarkeit bitte prüfen"
+    },
+    {
+      "id": "meinprospekt-penny-2026-11-21",
+      "store": "Penny",
+      "branch": "",
+      "flavor": "Andere",
+      "pack": 1,
+      "ml": 500,
+      "price": 0.89,
+      "validFrom": "",
+      "validUntil": "2026-11-21",
       "demo": false,
       "live": true,
       "sourceName": "MeinProspekt",
@@ -38,54 +53,6 @@ window.MONSTER_RADAR_LIVE_OFFERS = {
       "sourceName": "MeinProspekt",
       "sourceUrl": "https://www.meinprospekt.de/angebote/monster-energy",
       "conditions": "Monster Energy 0,5 l; Prospektangebot, lokale Filialverfügbarkeit bitte prüfen"
-    },
-    {
-      "id": "meinprospekt-action-2026-11-10",
-      "store": "Action",
-      "branch": "",
-      "flavor": "Andere",
-      "pack": 1,
-      "ml": 500,
-      "price": 1.19,
-      "validFrom": "",
-      "validUntil": "2026-11-10",
-      "demo": false,
-      "live": true,
-      "sourceName": "MeinProspekt",
-      "sourceUrl": "https://www.meinprospekt.de/angebote/monster-energy",
-      "conditions": "Monster Energy 0,5 l; Prospektangebot, lokale Filialverfügbarkeit bitte prüfen"
-    },
-    {
-      "id": "meinprospekt-getr-nkeservice-hofmeier-furtmayr-2026-11-14",
-      "store": "Getränkeservice Hofmeier & Furtmayr",
-      "branch": "",
-      "flavor": "Andere",
-      "pack": 1,
-      "ml": 500,
-      "price": 1.19,
-      "validFrom": "",
-      "validUntil": "2026-11-14",
-      "demo": false,
-      "live": true,
-      "sourceName": "MeinProspekt",
-      "sourceUrl": "https://www.meinprospekt.de/angebote/monster-energy",
-      "conditions": "Monster Energy 0,5 l; Prospektangebot, lokale Filialverfügbarkeit bitte prüfen"
-    },
-    {
-      "id": "aktionspreis-aldi-nord-2026-11-14",
-      "store": "Aldi Nord",
-      "branch": "",
-      "flavor": "Andere",
-      "pack": 1,
-      "ml": 500,
-      "price": 0.89,
-      "validFrom": "",
-      "validUntil": "2026-11-14",
-      "demo": false,
-      "live": true,
-      "sourceName": "Aktionspreis.de",
-      "sourceUrl": "https://www.aktionspreis.de/angebote/monster-energy-0-5l",
-      "conditions": "Monster Energy 0,5 l; lokale Verfügbarkeit bitte prüfen"
     }
   ]
 };
